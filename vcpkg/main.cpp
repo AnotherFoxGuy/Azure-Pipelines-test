@@ -1,8 +1,7 @@
-#include <iostream>
-using namespace std;
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
 
-int main()
+TEST_CASE("Text Nederlands Een")
 {
-    cout << "Hello, World!";
-    return 0;
+  CHECK ("Text Nederlands Een" == "Text Nederlands Een");
 }

@@ -1,4 +1,11 @@
-cmake_minimum_required(VERSION 2.9)
+cmake_minimum_required(VERSION 3.10)
 project(TestProject)
 
-add_executable(dummy main.cpp)
+include(../pmm.cmake)
+pmm(CMakeCM ROLLING)
+
+include(CMakeRC)
+
+cmrc_add_resource_library(dummy-rc CMakeLists.txt)
+add_executable(dummy-program main.cpp)
+target_link_libraries(dummy-program PRIVATE dummy-rc)
