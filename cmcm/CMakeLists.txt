@@ -4,8 +4,8 @@ project(TestProject)
 include(../pmm.cmake)
 pmm(CMakeCM ROLLING)
 
-include(CMakeRC)
+include(cotire)
 
-cmrc_add_resource_library(dummy-rc CMakeLists.txt)
 add_executable(dummy-program main.cpp)
-target_link_libraries(dummy-program PRIVATE dummy-rc)
+
+cotire(dummy-program)
