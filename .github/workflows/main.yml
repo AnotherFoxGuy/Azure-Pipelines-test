@@ -1,6 +1,6 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   test:
@@ -13,6 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      if: ${{ matrix.PMM_tool }} == 'conan'
+      with:
+        python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
+        architecture: 'x64' # (x64 or x86)
 
     - name: CMake
       working-directory:  ${{ matrix.PMM_tool }}
