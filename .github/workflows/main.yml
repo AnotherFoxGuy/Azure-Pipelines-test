@@ -16,7 +16,7 @@ jobs:
     - uses: actions/setup-python@v1
       if: matrix.PMM_tool == 'conan'
       with:
-        python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
+        python-version: '3.x' # Version range or exact version of a Python version to use, using semvers version range syntax.
         architecture: 'x64' # (x64 or x86)
 
     - name: CMake
