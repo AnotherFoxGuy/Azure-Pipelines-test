@@ -1,40 +1,38 @@
-# Build NodeJS Express app using Azure Pipelines
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript?view=azure-devops
 strategy:
   matrix:
-    linux:
+    linux-cmcm:
       imageName: 'ubuntu-16.04'
-    mac:
+      project: 'cmcm'
+    linux-conan:
+      imageName: 'ubuntu-16.04'
+      project: 'conan'
+    linux-vcpkg:
+      imageName: 'ubuntu-16.04'
+      project: 'vcpkg'
+    mac-cmcm:
       imageName: 'macos-10.13'
-    windows:
+      project: 'cmcm'
+    mac-conan:
+      imageName: 'macos-10.13'
+      project: 'conan'
+    mac-vcpkg:
+      imageName: 'macos-10.13'
+      project: 'vcpkg'
+    windows-cmcm:
       imageName: 'vs2017-win2016'
+      project: 'cmcm'
+    windows-conan:
+      imageName: 'vs2017-win2016'
+      project: 'conan'
+    windows-vcpkg:
+      imageName: 'vs2017-win2016'
+      project: 'vcpkg'
 
 pool:
   vmImage: $(imageName)
 
 steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '8.x'
-
-- script: |
-    npm install
-    npm test
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFiles: '**/TEST-RESULTS.xml'
-    testRunTitle: 'Test results for JavaScript'
-
-- task: PublishCodeCoverageResults@1
-  inputs: 
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
-    reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
-
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
-    includeRootFolder: false
-
-- task: PublishBuildArtifacts@1
+- script: cmake .
+  workingDirectory: $(project)
+- script: cmake --build .
+  workingDirectory: $(project)
