@@ -1,0 +1,24 @@
+name: CI
+
+on: [push]
+
+jobs:
+  test:
+    name: Test ${{ matrix.PMM_tool }} and ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        PMM_tool: ['cmcm', 'conan', 'vcpkg']
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: CMake
+      working-directory:  ${{ matrix.PMM_tool }}
+      run: cmake .
+      
+    - name: Build
+      working-directory:  ${{ matrix.PMM_tool }}
+      run: cmake --build .
+        
