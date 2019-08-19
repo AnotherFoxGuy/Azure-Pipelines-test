@@ -15,7 +15,11 @@ jobs:
     - uses: actions/checkout@v1
     
     - uses: actions/setup-python@v1
-      if: matrix.PMM_tool == 'conan'
+      if: matrix.PMM_tool == 'conan' && matrix.os != 'macOS-latest'
+      
+    - name: Install python with brew
+      run: brew install python
+      if: matrix.PMM_tool == 'conan' && matrix.os == 'macOS-latest'
 
     - name: CMake
       working-directory:  ${{ matrix.PMM_tool }}
